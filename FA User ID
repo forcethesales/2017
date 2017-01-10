@@ -19,7 +19,7 @@ public class FormAssemblyFormController{
         if(pageRef.getParameters().get('tfa_next') == null){
           //Replace 'FORM_ID' with your form's ID number
           
-          endpoint = 'https://app.formassembly.com/rest/forms/view/457702?userid=' + UserID;
+          endpoint = 'https://app.formassembly.com/rest/forms/view/FORM_ID?userid=' + UserID;
           
           
         }else{
