@@ -1,0 +1,41 @@
+//source: https://help.formassembly.com/help/354549-using-formassemblys-publishing-api-with-salesforce 
+//The FormAssembly Publishing API allows FormAssembly users to embed a fully 
+//functional form on their site (using Visualforce) which allows form interactions to appear as if they are taking place within the user's own domain.
+//I added passing the userid to the form as a prefill connector using form assembly specific the variable of "FAuserid". 
+
+public class FormAssemblyFormController{
+
+    public HTTPResponse res {get; set;}
+    public String resBody {get; set;}
+    public String endpoint {get; set;}
+    public String userID {get;set;}
+
+    public FormAssemblyFormController() {
+        PageReference pageRef = ApexPages.currentPage();
+
+        HttpRequest req = new HttpRequest();
+        req.setMethod('GET');
+
+    String UserID = 
+          UserInfo.getUserID();
+
+        if(pageRef.getParameters().get('tfa_next') == null){
+          //Replace 'FORM_ID' with your form's ID number
+          
+          endpoint = 'https://app.formassembly.com/rest/forms/view/457702?FAuserid=' + UserID;
+        }else{
+          endpoint = 'https://app.formassembly.com/rest' + pageRef.getParameters().get('tfa_next');
+        }
+        req.setEndpoint(endpoint);
+
+        Http http = new Http();
+        try {
+                //Execute web service call here
+                res = http.send(req);
+                resBody = res.getBody();
+        } catch(System.CalloutException e) {
+            //Exception handling goes here....
+            System.debug(e);
+        }
+    }
+}
