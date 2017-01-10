@@ -1,7 +1,7 @@
 //source: https://help.formassembly.com/help/354549-using-formassemblys-publishing-api-with-salesforce 
 //The FormAssembly Publishing API allows FormAssembly users to embed a fully 
 //functional form on their site (using Visualforce) which allows form interactions to appear as if they are taking place within the user's own domain.
-//I added passing the userid to the form as a prefill connector using form assembly specific the variable of "FAuserid". 
+//I took their code and added passing the userid to the form as a prefill connector using form assembly specific the variable of "FAuserid". 
 
 public class FormAssemblyFormController{
 
