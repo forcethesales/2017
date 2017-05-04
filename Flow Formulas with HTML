@@ -1,0 +1,8 @@
+IF(NOT({!EESC_Price}>0) && NOT(ISNULL({!eescID})), 'You entered an EESc and still need to add the third party price. Please select "Previous" to return to the last page and enter the price. <div></div>','') +
+IF(NOT(ISNULL({!eescID})),
+'<DIV ALIGN="LEFT"><FONT FACE="Verdana" STYLE="font-size:20px" COLOR="#000000" LETTERSPACING="0" KERNING="1"> If you did not attach the third party proposal on the quote, please go back to the quote and do so. ', 
+
+
+'Well Done!')
++
+' <A HREF="https://cs54.salesforce.com/' + {!varQuoteID} + ' " TARGET="_blank">Click here to return to the quote.</A></FONT></DIV>'
