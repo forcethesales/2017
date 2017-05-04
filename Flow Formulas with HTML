@@ -1,3 +1,4 @@
+Version 1
 IF(NOT({!EESC_Price}>0) && NOT(ISNULL({!eescID})), 'You entered an EESc and still need to add the third party price. Please select "Previous" to return to the last page and enter the price. <div></div>','') +
 IF(NOT(ISNULL({!eescID})),
 '<DIV ALIGN="LEFT"><FONT FACE="Verdana" STYLE="font-size:20px" COLOR="#000000" LETTERSPACING="0" KERNING="1"> If you did not attach the third party proposal on the quote, please go back to the quote and do so. ', 
@@ -6,3 +7,12 @@ IF(NOT(ISNULL({!eescID})),
 'Well Done!')
 +
 ' <A HREF="https://cs54.salesforce.com/' + {!varQuoteID} + ' " TARGET="_blank">Click here to return to the quote.</A></FONT></DIV>'
+
+Version 2 with bulleted list
+
+IF(NOT({!EESC_Price}>0) && NOT(ISNULL({!eescID})), '<ul><LI><FONT FACE="Verdana" STYLE="font-size:26px" COLOR="#000000" LETTERSPACING="0" KERNING="0">You entered an EESc and still need to add the third party price. Please select "Previous" to return to the last page and enter the price. </LI> <li><FONT FACE="Verdana" STYLE="font-size:26px" COLOR="#000000" LETTERSPACING="0" KERNING="0"> If you did not attach the third party proposal on the quote, <A HREF="https://cs54.salesforce.com/' + {!varQuoteID} + ' " TARGET="_blank">click here to return to the quote.</A></FONT></DIV></LI></TEXTFORMAT>',
+
+
+IF(NOT(ISNULL({!eescID})),
+'<LI><FONT FACE="Verdana" STYLE="font-size:26px" COLOR="#000000" LETTERSPACING="0" KERNING="0">If you did not attach the third party proposal on the quote, return to the quote. Otherwise, you are all set. <A HREF="https://cs54.salesforce.com/' + {!varQuoteID} + ' " TARGET="_blank">Click here to return to the quote.</A></DIV></FONT></LI></TEXTFORMAT>', 
+'<FONT FACE="Verdana" STYLE="font-size:26px" COLOR="#000000" LETTERSPACING="0" KERNING="0"> Well done! <A HREF="https://cs54.salesforce.com/' + {!varQuoteID} + ' " TARGET="_blank">Click here to return to the quote.</A></FONT></DIV>'))
