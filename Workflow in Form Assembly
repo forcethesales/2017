@@ -1,0 +1,42 @@
+Conversation with their support
+
+Kaleena P (5/18/2017, 3:26:11 PM): Welcome! I'm Kaleena and I’ll be right with you. 
+Me (5/18/2017, 3:26:15 PM): Thanks! 
+Kaleena P (5/18/2017, 3:27:36 PM): Hi there, You could use the object alias %%SFA_LEAD%% to pass the id you create in the first form to the second form: https://help.formassembly.com/help/344494-object-alias 
+Me (5/18/2017, 3:28:52 PM): ok. can you tell me where to use that? 
+Kaleena P (5/18/2017, 3:29:12 PM): Yes, are you using a redirect URL to go from the first form to the second one? 
+Me (5/18/2017, 3:29:33 PM): I'm not sure. I was going to use a workflow. 
+Kaleena P (5/18/2017, 3:30:25 PM): Okay, in the workflow then you would put it in the area where you pass values from one form to the next: https://help.formassembly.com/help/workflows#pass-data-between-forms 
+Me (5/18/2017, 3:30:51 PM): ooh i like it. 
+Kaleena P (5/18/2017, 3:31:20 PM): You'll need to make sure the Salesforce connector is in the form submitted stage in order for this to work though. It can't be in the after form submitted stage 
+Me (5/18/2017, 3:31:24 PM): tfa_1=%%SFA_LEAD%% 
+Kaleena P (5/18/2017, 3:31:29 PM): Yep :) 
+Me (5/18/2017, 3:31:51 PM): okay, can do. 
+Me (5/18/2017, 3:31:57 PM): can you hang out while I try it? 
+Kaleena P (5/18/2017, 3:32:08 PM): Of course 
+Me (5/18/2017, 3:34:42 PM): oh do I need to build in a redirect link on the Notification Options of form 1? 
+Kaleena P (5/18/2017, 3:35:02 PM): You could either do that, or use a workflow. They would both work 
+Kaleena P (5/18/2017, 3:35:21 PM): I tend to prefer the redirect URL because it's more versatile 
+Me (5/18/2017, 3:36:19 PM): so I turned on the workflow, but after submitting form 1, I get a thank you page 
+Kaleena P (5/18/2017, 3:37:56 PM): Are you accessing the workflow from this URL https://app.formassembly.com/workflows/start/3311 
+Me (5/18/2017, 3:38:01 PM): nope! 
+Me (5/18/2017, 3:38:06 PM): lemme try that 
+Me (5/18/2017, 3:38:28 PM): I have to change my url to include the pre-fill section, yes? 
+Kaleena P (5/18/2017, 3:38:38 PM): yes 
+Me (5/18/2017, 3:39:56 PM): the lead id did not populate on page 2 
+Me (5/18/2017, 3:39:57 PM): https://app.formassembly.com/workflows/edit/3311 
+Kaleena P (5/18/2017, 3:40:37 PM): You need to use all capital letters in the object alias, %%SFA_LEAD%% 
+Me (5/18/2017, 3:42:32 PM): awesome. that worked 
+Me (5/18/2017, 3:42:40 PM): now let me make sure I can get the pre-fill stuff correct. 
+Kaleena P (5/18/2017, 3:42:42 PM): Sweet! 
+Me (5/18/2017, 3:45:13 PM): I see that at some point I did this before 
+Me (5/18/2017, 3:45:19 PM): so I have this url to start the process: 
+Me (5/18/2017, 3:45:28 PM): https://www.tfaforms.com/forms/view/457702/?tfa_dbWorkflowId=3311&tfa_dbWorkflowStep=0&tfa_dbWorkflowControl=f8ee74b1a4f9978b192ea59144ba704c&userid=' + UserID; 
+Me (5/18/2017, 3:45:46 PM): what is this part: tfa_dbWorkflowControl=f8ee74b1a4f9978b192ea59144ba704c 
+Kaleena P (5/18/2017, 3:46:10 PM): That directs it to the correct workflow 
+Kaleena P (5/18/2017, 3:46:35 PM): So the data will go to the correct place 
+Me (5/18/2017, 3:47:07 PM): how do I find that id for this form? 
+Me (5/18/2017, 3:47:11 PM): or this workflow 
+Kaleena P (5/18/2017, 3:48:37 PM): When you start the workflow you should see it in the address bar. It appears to be: https://app.formassembly.com/forms/view/457702/?tfa_dbWorkflowId=3311&tfa_dbWorkflowStep=0&tfa_dbWorkflowControl=0dcda79ff5227136986f96463f3b1868 
+Me (5/18/2017, 3:52:44 PM): ok! Thank you. that definitely works 
+Me (5/18/2017, 3:52:48 PM): i am all set 
