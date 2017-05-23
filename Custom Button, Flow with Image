@@ -1,0 +1,12 @@
+//Created an image in flow using the instructions here: https://automationchampion.com/tag/use-image-in-flow/
+
+//I have a quick close button for cases using a custom button, a visualforce paget that launches a flow, and ends on a screen 
+//with a congratulatory image. You then click to get back to the case where you started. 
+//visualforce page:
+<apex:page standardController="Case" tabStyle="Case" >
+    <flow:interview name="Case_Closed_Quick_Fix" >
+        <apex:param name="caseid" value="{!Case.ID}"/>
+    </flow:interview>
+</apex:page>
+             
+         
