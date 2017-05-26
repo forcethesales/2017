@@ -1,0 +1,35 @@
+//most of this is copied directly from FormAssembly's support 
+
+public class FormAssemblyFormController2{
+
+    public HTTPResponse res {get; set;}
+    public String resBody {get; set;}
+    public String endpoint {get; set;}
+
+
+    public FormAssemblyFormController2() {
+        PageReference pageRef = ApexPages.currentPage();
+
+        HttpRequest req = new HttpRequest();
+        req.setMethod('GET');
+
+        if(pageRef.getParameters().get('tfa_next') == null){
+          //Replace 'FORM_ID' with your form's ID number
+//the next three lines are the juicy bit that Patrick Tewson and I figured out.   tfa_2675 is the field on form2 that I want filled in by the lead.        
+          endpoint = 'https://www.tfaforms.com/forms/view/4618890/?tfa_2675='+pageRef.getParameters().get('leadid');
+        }else{
+          endpoint = 'https://app.formassembly.com/rest' + pageRef.getParameters().get('tfa_next')+'&tfa_2675='+pageRef.getParameters().get('leadid');
+        }
+        req.setEndpoint(endpoint);
+
+        Http http = new Http();
+        try {
+                //Execute web service call here
+                res = http.send(req);
+                resBody = res.getBody();
+        } catch(System.CalloutException e) {
+            //Exception handling goes here....
+            System.debug(e);
+        }
+    }
+}
