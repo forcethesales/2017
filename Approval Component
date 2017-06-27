@@ -1,0 +1,45 @@
+<apex:component controller="ApprovalRequestCommentsController" access="global">
+
+   
+   
+    <apex:attribute name="relatedToId" assignTo="{!targetObjectId}" type="String" description="ID of the record whose last approval comments to retrieve"/>
+
+        <table cellpadding="5" style="border-collapse: collapse " width="450" border="1">
+                <tr>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="300">
+                        <b>Date</b>
+                    </td>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Approver</b>
+                    </td>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Comments</b>
+                    </td>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Status</b>
+                    </td>
+                </tr>
+                   <apex:repeat value="{!approvalSteps}" var="step">
+                        <tr>
+                            <td>
+                                
+                                 <apex:outputField value="{!step.CreatedDate}">
+
+                                             </apex:outputField>
+                            </td>
+                             <td>
+                                 <a href="/{!step.ActorID}" target='_parent'>{!step.Actor.Name}</a></td>
+                                    <td>{!step.StepStatus}</td><td>
+                                {!step.Comments}
+                                                       </td>    
+                             <td>
+                                 <a href="/{!step.ActorID}" target='_parent'>{!step.Actor.Name}</a></td>
+                                 <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Comments</b> </td>
+                                    <td>{!step.StepStatus}</td>
+                                                       
+                                                                                                           
+                        </tr></apex:repeat>
+                        </table>
+    
+</apex:component>
