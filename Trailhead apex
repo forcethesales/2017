@@ -1,0 +1,39 @@
+/// Trailhead write SQL
+public class ContactSearch {
+    public static List <Contact> searchForContacts  (string bName, String Zip) 
+
+    { 
+        List<Contact> contacts = [SELECT LastName, MailingPostalCode FROM Contact WHERE
+               (LastName=:bName AND MailingPostalCode=:Zip)
+               			ORDER BY LastName DESC ]; 
+        return contacts;
+    }
+        
+        
+        }
+        
+        ///Trailhead insert account with debug return
+        // class access & name. class is a set of code you call from somewhere else in the system to do things.
+//public means you can call this class from anywhere in this instance.
+public class AccountHandler	
+{
+    // add new account method
+    public static Account insertNewAccount (string Name){
+// newAccount is the name of the method. if I was to reference this in a controller behind a VF page, i'd say AccountHander.newAccount
+// void doesn't return anything. like a calculation would return an answer and then you use that.              
+			try {
+			Account acct = new Account(Name = Name); 
+			insert acct;
+            ID acctId = acct.Id;
+            system.debug('New account Id is: ' + acctId);
+            return acct;   
+			} 
+        	catch (DmlException e) 
+            {
+    			System.debug('A DML exception has occurred:' +
+                e.getMessage());
+                return null;
+			} 
+        
+    	} 
+}
