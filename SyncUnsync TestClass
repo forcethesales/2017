@@ -1,0 +1,90 @@
+@isTest(SeeAllData=true)
+	private class SyncUnsync {
+	   /*
+	 	
+	Scenario:
+		- Create Acct, Opportunity and Quote with OptimumEDGE with Site Status (normally created through Taqtile Lead Conversion).	Use Gold Pricebook.
+		- Sync Quote to Opportunity.
+
+		Expected Result:
+		- The Opportunity will have both OptimumEDGE and OptiCx.
+		-The Quote will have both products and will be synced.
+
+		How:
+		Process Builder: Partner Portal Quotes. 
+		Flow: Partner Portal EDGE. Kaveat: the flow also uses a WAIT element and then unsyncs the quote soon after. I don't know how to test this.
+	*/
+	static testMethod void createAcctOppQte()
+    {
+        //my dog's name is Bailey Nelly Bones
+        Account bailey = new Account( Name='bailey bones',Type = 'End User');
+        insert bailey;
+        
+        Opportunity nelly = new Opportunity (Name='TestOpportunity', AccountID=bailey.id, StageName='1-Educate', Product_Service__c='Services', CloseDate=System.today().addMonths(1));
+        insert nelly;
+        
+        Quote bones = new Quote (Name='Quoty McQuoteFace', OpportunityID=nelly.id, Site_Status__c='Site Eligibility Approved', Pricebook2Id='01s38000000T359AAC');
+        insert bones;
+        
+        QuoteLineItem fluffy = new QuoteLineItem (PricebookEntryId='01u3800000MRUBb', QuoteId=bones.id, Quantity=1, UnitPrice=1);
+        insert fluffy;
+        
+      
+       
+      List <QuoteLineItem> lines = [SELECT QuoteId FROM QuoteLineItem WHERE QuoteID = :bones.Id];
+        
+        // visually check that the OptiCx line item was added to the quote
+        System.assertEquals(bones.Id,lines[0].QuoteId);
+        
+        List <OpportunityLineItem> opp = [SELECT OpportunityID, NameofProduct__c FROM OpportunityLineItem WHERE OpportunityID= :nelly.ID AND NameOfProduct__c='OptiCx EDGE' ORDER BY NameOfProduct__c ASC NULLS FIRST];
+        System.assertEquals('OptiCx EDGE',opp[0].NameOfProduct__c);
+        
+        //visually check the opportunity is synced
+        List <Opportunity> opp2 = [SELECT ID, SyncedQuoteId FROM Opportunity WHERE ID =:nelly.Id];
+        System.assertEquals(bones.id,opp2[0].SyncedQuoteId);
+        
+    }
+static testMethod void NonEdgeQt()
+    {
+        
+        /*
+            Scenario: 
+        
+		- Create Acct, Opportunity and Quote with OptimumEDGE but no Site Status (normally created through Taqtile Lead Conversion).	Use Gold Pricebook.
+		- Sync Quote to Opportunity.
+
+		Expected Result:
+		- The Opportunity will have neither OptimumEDGE and OptiCx.
+		-The Quote will not have OptiCX and will not be synced.
+
+		How:
+		Process Builder: Partner Portal Quotes. 
+		Flow: Partner Portal EDGE. Kaveat: the flow also uses a WAIT element and then unsyncs the quote soon after. I don't know how to test this.
+        */
+		Account bailey = new Account( Name='bailey bones',Type = 'End User');
+        insert bailey;
+        
+        Opportunity nelly = new Opportunity (Name='TestOpportunity', AccountID=bailey.id, StageName='1-Educate', Product_Service__c='Services', CloseDate=System.today().addMonths(1));
+        insert nelly;
+        
+        Quote bones = new Quote (Name='Quoty McQuoteFace', OpportunityID=nelly.id, Pricebook2Id='01s38000000T359AAC');
+        insert bones;
+        
+        QuoteLineItem fluffy = new QuoteLineItem (PricebookEntryId='01u3800000MRUBb', QuoteId=bones.id, Quantity=1, UnitPrice=1);
+        insert fluffy;
+        
+      List <QuoteLineItem> lines = [SELECT QuoteId, Product_Name_Text__c FROM QuoteLineItem WHERE QuoteID = :bones.Id AND Product_Name_Text__c='OptiCx EDGE'];
+        
+        // visually check that the OptiCx line item NOT added to the quote
+        System.assert(lines.size()==0);
+       
+        //visually check that OptiCx was not added to Opp
+        List <OpportunityLineItem> opp = [SELECT OpportunityID, NameofProduct__c FROM OpportunityLineItem WHERE OpportunityID= :nelly.ID AND NameOfProduct__c='OptiCx EDGE' ORDER BY NameOfProduct__c ASC NULLS FIRST];
+        System.assert(opp.size()==0);
+        
+        //visually check the opportunity is not synced
+        List <Opportunity> opp2 = [SELECT ID, SyncedQuoteId FROM Opportunity WHERE ID =:nelly.Id];
+        System.assertEquals(null,opp2[0].SyncedQuoteId);
+        
+    }
+}
