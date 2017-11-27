@@ -1,0 +1,7 @@
+/Built using these resources: 
+/http://raydehler.com/cloud/clod/salesforce-url-hacking-to-prepopulate-fields-on-a-standard-page-layout.html and 
+/http://theblogreaders.com/salesforce-standard-object-field-ids/#.V1a0Vtl97Dc 
+
+/Purpose is to populate Account ID from the Project Site
+
+"/500/e?CF00N38000003bydQ={!Plant__c.Name}&CF00N38000003bydQ_lkid={!Plant__c.Id}&cas4={!Plant__c.Account__c}&recordtype=01238000000RYGO&retURL={!Plant__c.Id}"
