@@ -1,0 +1,7 @@
+//https://developer.salesforce.com/docs/atlas.en-us.salesforce_vpm_guide.meta/salesforce_vpm_guide/vpm_distribute_internal_vf_finish.htm
+//add finish location to return to home page at end of flow
+<apex:page standardController="Lead" tabStyle="Opportunity" >
+    <flow:interview name="Portal_Lead_Conversion" finishLocation="{!URLFOR('/home/home.jsp')}">
+        <apex:param name="leadid" value="{!Lead.ID}"/>
+    </flow:interview>
+</apex:page>
