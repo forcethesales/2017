@@ -1,0 +1,37 @@
+function cartesian() {
+    var r = [], arg = arguments, max = arg.length-1;
+    function helper(arr, i) {
+        for (var j=0, l=arg[i].length; j<l; j++) {
+            var a = arr.slice(0); // clone arr
+            a.push(arg[i][j])
+            if (i==max) {
+                r.push(a);
+            } else
+                helper(a, i+1);
+        }
+    }
+    helper([], 0);
+    return r;
+};
+
+console.log(cartesian(
+['Site Name.Type Whatever You want'],
+['Customer.Type Whatever You want'],
+['Country.United States','Country.Canada','Country.None','Country.Other'],
+['Address Line 1.Type a Real Address', 'Address Line 1.Type a Fake Address'],
+['Address Line 2.Include a Line 2', 'Address Line 2.Do not include Line 2'],
+['City.Type a Real Address', 'City.Type a Fake Address'],
+['Provinces.Type a Real Address', 'Provinces.Type a Fake Address'],
+['State.Type a Real Address', 'State.Type a Fake Address'],
+['Zip/Postal Code.Type a Real Address', 'Zip/Postal Code.Type a Fake Address'],
+['Does the site have chillers piped in series?.Yes', 'Does the site have chillers piped in series?.No'],
+['Does this site have thermal energy storage?.Yes', 'Does this site have thermal energy storage?.No'],
+['Does this site use steam or gas powered chillers?.Yes', 'Does this site use steam or gas powered chillers?.No'],
+['Does this site have non-centrifugal chillers?.Yes', 'Does this site have non-centrifugal chillers?.No'],
+['Does this site have multiple condenser water loops?.Yes', 'Does this site have multiple condenser water loops?.No'],
+['Does this site have multiple chilled water distribution loops?.Yes', 'Does this site have multiple chilled water distribution loops?.No'],
+['Will all chilled water pumps (primary and secondary), be variable speed?.Yes', 'Will all chilled water pumps (primary and secondary), be variable speed?.No'],
+['Will all condenser water pumps be variable speed?.Yes', 'Will all condenser water pumps be variable speed?.No'],
+['Will all cooling towers be variable speed?.Yes', 'Will all cooling towers be variable speed?.No'],
+
+  ));
