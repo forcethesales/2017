@@ -1,0 +1,451 @@
+<messaging:emailTemplate subject="Pricing Request Submitted for {!relatedTo.Name}" recipientType="User" relatedToType="Quote">
+   <messaging:htmlEmailBody >
+        <body style="font-family: 'Trebuchet MS'">
+         
+            <h2>
+                New Pricing Request</h2>
+           Please respond to this email with the words APPROVE, APPROVED, YES, REJECT, REJECTED, or NO on the first line.
+           You can also add comments on the second line. The comments will be stored with the approval request in Salesforce CRM.       
+<hr style="border: solid thin #0099CC" />
+            <table cellpadding="5" style="border-collapse: collapse">
+                <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Account</i>
+                    </td>
+                    <td width="500px"> <apex:repeat value="{!relatedTo.Account}" var="SOR">
+                       <apex:variable var="url" value="{!LEFT($Api.Partner_Server_URL_140, FIND(".com/",$Api.Partner_Server_URL_140)+3)}"/>
+<apex:outputLink value="{!url}/{!SOR.ID}"><b>{!SOR.Name}</b></apex:outputLink> </apex:repeat>
+                        </td>
+                </tr><tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Quote</i>
+                    </td>
+                    <td width="500px"> <apex:repeat value="{!relatedTo.QuoteNumber}" var="SOR">
+                       <apex:variable var="url" value="{!LEFT($Api.Partner_Server_URL_140, FIND(".com/",$Api.Partner_Server_URL_140)+3)}"/>
+<apex:outputLink value="{!url}/{!relatedTo.ID}"><b>{!relatedTo.Name}</b></apex:outputLink> </apex:repeat>
+                        </td>
+                </tr><tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Account Executive</i>
+                    </td>
+                    <td width="500px"> 
+                       <b>{!relatedTo.Opportunity.Owner.Name}</b> 
+                        </td>
+                </tr>
+                <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Project Site</i>
+                    </td>
+                    <td width="500px"> 
+                       <apex:variable var="url" value="{!LEFT($Api.Partner_Server_URL_140, FIND(".com/",$Api.Partner_Server_URL_140)+3)}"/>
+<apex:outputLink value="{!url}/{!relatedTo.ProjectSite__r.ID}"><b>{!relatedTo.ProjectSite__r.Name}</b></apex:outputLink> 
+                        </td>
+                </tr><tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Opportunity</i>
+                    </td>
+                    <td width="500px">
+                       <apex:variable var="url" value="{!LEFT($Api.Partner_Server_URL_140, FIND(".com/",$Api.Partner_Server_URL_140)+3)}"/>
+<apex:outputLink value="{!url}/{!relatedTo.Opportunity.ID}"><b>{!relatedTo.Opportunity.Name}</b></apex:outputLink>  
+                        </td>
+                </tr>
+                 
+             <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Site Location</i>
+                    </td>
+                    <td width="500px">
+                         {!relatedTo.Account.ShippingCity}, {!relatedTo.Account.ShippingState} {!relatedTo.Account.ShippingPostalCode} {!relatedTo.Account.ShippingCountry}
+                        </td>
+                </tr>
+                 <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100ox">
+                        <i>Partner or Direct Sale</i>
+                    </td>
+                    <td width="500px">
+                         {!IF(NOT(ISBLANK(relatedTo.Partner_Account__c)),"Partner is " & relatedTo.Partner_Account__r.Name,
+                         "Direct Sale")}
+                        </td>
+                </tr>
+                    <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Product/Service</i>
+                    </td>
+                    <td width="500px">
+                    {!relatedTo.Product_Service__c}
+                    </td>
+                </tr>
+                <tr>
+                
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Project Type</i>
+                    </td>
+                    <td width="500px">
+                    <apex:outputText escape="false" value="{!relatedTo.Opportunity.Project_Type__c}" />                    </td>
+                </tr> <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+       
+                        <i>Is this site a VA?</i>
+                    </td>
+                    <td width="500px">
+                          {!IF(CONTAINS(relatedTo.Account.Account_Group__c,'VHA'),'Yes, this is a VA.','No, this is not a VA')}
+                    </td></tr>  
+                 <tr>
+                
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Is this post-ESA or post-EDO?</i>
+                    </td>
+                    <td width="500px">
+                       
+                       
+                         
+                         {!IF(NOT(ISBLANK(relatedTo.Analysis_Sold__c)), 
+                         "The ESA/EDO was sold on "+ TEXT(relatedTo.Analysis_Sold__c), 
+                         "The ESA/EDO has not been sold.")} 
+                           {!IF(NOT(ISBLANK(relatedTo.Analysis_Sold__c))&&NOT(ISBLANK(relatedTo.Analysis_Complete__c)),
+                            " and completed on " 
+                            +TEXT(relatedTo.Analysis_Complete__c),'')}
+                        {!IF(NOT(ISBLANK(relatedTo.Analysis_Sold__c))&&ISBLANK(relatedTo.Analysis_Complete__c),
+                    'but it has not yet been completed.','')}
+                         
+                         
+                                            </td>
+                </tr> 
+                  <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+       
+                        <i>{!IF(CONTAINS(relatedTo.Account.Account_Group__c,'J&J'),'If J and J, est. non-OE costs?','')}</i>
+                    </td>
+                    <td width="500px">
+                          {!IF(CONTAINS(relatedTo.Account.Account_Group__c,'J&J'),ROUND(relatedTo.J_J_Non_OE_Project_Costs__c,0),'')}
+                    </td></tr>  
+               <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Energy Engineer</i>
+                    </td>
+                    <td width="500px">
+                        {!relatedTo.Energy_Engineer1__c} 
+                    </td>
+                </tr> 
+                <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>One Shot at Pricing</i>
+                    </td>
+                    <td width="500px">
+                          {!IF(OR(relatedTo.One_Shot_at_Pricing__c='Yes',relatedTo.One_Shot_at_Pricing__c='No'),relatedTo.One_Shot_at_Pricing__c,'Not Applicable')}
+                    </td> 
+                    </tr> 
+                         <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Other Comments?</i>
+                    </td>
+                    <td width="500px">
+                          {!relatedTo.Description}
+                    </td> 
+                    </tr> 
+                    <tr>
+                    <td align="right" 
+                        style="border-right-style: solid; border-right-width: thick; border-right-color: #0099CC;" 
+                        width="100px">
+                        <i>Tax Status </i>
+                    </td>
+                     <td width="500px">
+                          {!relatedTo.Opportunity.Tax_Status__c}
+                    </td>
+                    
+                    </tr>
+                        </table>
+                        <p></p>
+                        <p></p>
+                          <table cellpadding="5" style="border-collapse: collapse" width="450" border="1">
+                <tr>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="300">
+                        <b>Products and Pricing</b>
+                    </td>
+                        <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Elements</b>
+                    </td>
+                </tr>
+                <apex:repeat value="{!relatedTo.QuoteLineItems}" var="lineItem">
+                        <tr>
+                            <td>
+                                 {!lineItem.Product2.Name} {!IF(lineItem.Product2.Id<>'01t38000003NCYjAAO','','$'+TEXT(lineItem.TotalPrice))} 
+                            </td>
+                            <td>
+                                {!IF(lineItem.Elements__c<>null,lineItem.Elements__c,'n/a')} 
+                                                       </td>                                                        
+                        </tr></apex:repeat>
+                        </table>
+                        <p> </p>
+                        <p> </p>
+                        <table cellpadding="5" style="border-collapse: collapse" width="450" border="1">
+                <tr>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150">
+                        <b>Optimized Equipment at Project Site</b>
+                    </td>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150">
+                        <b>Quantity on Quote</b>
+                        </td>
+        <td style="background-color: #0099CC; color: #FFFFFF" width="150">
+                        <b>Quantity on Project Site if Different</b>
+                        </td>
+                </tr>
+                       <tr>
+                            <td>
+                                Project Site Complexity
+                            </td>
+                            <td>
+                                {!relatedTo.Project_Site_Complexity__c}
+                            </td> 
+            <td>
+                {!IF(relatedTo.Project_Site_Complexity__c!=relatedTo.ProjectSite__r.Project_Site_Complexity__c,relatedTo.ProjectSite__r.Project_Site_Complexity__c,"")}
+                                </td>                         
+                        </tr><tr>
+                            <td>
+                                ESA Complexity
+                            </td>
+                            <td>
+                                {!relatedTo.ESA_Complexity__c}
+                            </td> 
+            <td>
+                
+                                </td>                         
+                        </tr>  <tr>
+                            <td>
+                                Chillers (non-Heat Recovery)
+                            </td>
+                            <td>
+                                {!ROUND(relatedTo.Number_Of_Chillers__c,0)}
+                            </td> 
+            <td>
+                {!IF(relatedTo.Number_Of_Chillers__c!=relatedTo.ProjectSite__r.Chillers__c,ROUND(relatedTo.ProjectSite__r.Chillers__c,0),"")}
+                                </td>                         
+                        </tr><tr>
+                        <td>
+                                                            Boilers 
+                            </td>   
+                            <td>    
+                                {!ROUND(relatedTo.Boilers__c,0)}    
+                            </td>
+                            <td>{!IF(relatedTo.Boilers__c!=relatedTo.ProjectSite__r.Boilers__c,ROUND(relatedTo.ProjectSite__r.Boilers__c,0),'')}</td>                                                            
+                        </tr><tr>  
+                            <td>    
+                                Primary Pumps   
+                            </td>   
+                            <td>    
+                                {!ROUND(relatedTo.Number_Of_Pumps__c,0)}    
+                            </td>
+                            <td>{!IF(relatedTo.Number_Of_Pumps__c!=relatedTo.ProjectSite__r.Primary_Pumps__c,ROUND(relatedTo.ProjectSite__r.Primary_Pumps__c,0),'')}</td>
+                                                           
+                        </tr><tr>   
+                            <td>    
+                                Secondary Pumps 
+                            </td>   
+                            <td>    
+                                {!ROUND(relatedTo.Number_of_secondary_chilled_water_pump__c,0)} 
+                                <td>{!IF(relatedTo.Number_of_secondary_chilled_water_pump__c!=relatedTo.ProjectSite__r.Secondary_Pumps__c,ROUND(relatedTo.ProjectSite__r.Secondary_Pumps__c,0),'')}
+                                </td>
+
+                            </td>                                                           
+                        </tr><tr>   
+                            <td>    
+                                Condenser Pumps 
+                            </td>   
+                            <td>    
+                                {!ROUND(relatedTo.Number_of_condenser_water_pumps__c,0)}
+                                <td>{!IF(relatedTo.Number_of_condenser_water_pumps__c!=relatedTo.ProjectSite__r.Condenser_Water_Pumps__c,ROUND(relatedTo.ProjectSite__r.Condenser_Water_Pumps__c,0),'')}</td>    
+                            </td>                                                           
+                        </tr><tr>   
+                            <td>    
+                                Booster/Tertiary Pumps  
+                            </td>   
+                            <td>    
+                                {!ROUND(relatedTo.Booster_Tertiary_Pumps__c,0)} 
+                            </td>  
+                            <td>{!IF(relatedTo.Booster_Tertiary_Pumps__c!=relatedTo.ProjectSite__r.Booster_Tertiary_Pumps__c,ROUND(relatedTo.ProjectSite__r.Booster_Tertiary_Pumps__c,0),'')}</td>
+                                                         
+                        </tr><tr>   
+                            <td>    
+                                Tower Cells 
+                            </td>   
+                            <td>    
+                                {!ROUND(relatedTo.Cooling_Tower_Cells__c,0)}    
+                            </td>
+                            <td>{!IF(relatedTo.Cooling_Tower_Cells__c!=relatedTo.ProjectSite__r.Cooling_Tower_Cells__c,ROUND(relatedTo.ProjectSite__r.Cooling_Tower_Cells__c,0),'')}</td>
+                                                           
+                        </tr><tr>   
+                            <td>    
+                                CHWP Loops  
+                            </td>   
+                            <td>    
+                                {!ROUND(relatedTo.CHW_Distribution_Loops__c,0)} 
+                            </td>
+                            <td>{!IF(relatedTo.CHW_Distribution_Loops__c!=relatedTo.ProjectSite__r.Distribution_Loops__c,ROUND(relatedTo.ProjectSite__r.Distribution_Loops__c,0),'')}</td>
+                                                           
+                        </tr><tr>   
+                            <td>    
+                                TES 
+                            </td>
+                            <td>{!ROUND(relatedTo.Thermal_Energy_Storage__c,0)} 
+                            </td>   
+                            <td>    
+                               {!IF(relatedTo.Thermal_Energy_Storage__c!=relatedTo.ProjectSite__r.Thermal_Energy_Storage__c,ROUND(relatedTo.ProjectSite__r.Thermal_Energy_Storage__c,0),'')}
+                            </td>                                                           
+                        </tr><tr>   
+                            <td>    
+                                Heat Exchangers 
+                            </td>   
+                            <td>    
+                                {!ROUND(relatedTo.Heat_Exchangers__c,0)}    
+                            </td>     
+                            <td>{!IF(relatedTo.Heat_Exchangers__c!=relatedTo.ProjectSite__r.Heat_Exchangers__c,ROUND(relatedTo.ProjectSite__r.Heat_Exchangers__c,0),'')}</td>                                                      
+                        </tr><tr>   
+                            <td>    
+                                Heat Recovery Chillers  
+                            </td>   
+                            <td>    
+                                {!ROUND(relatedTo.Heat_Recovery_Chillers__c,0)} 
+                            </td>  
+                            <td>{!IF(relatedTo.Heat_Recovery_Chillers__c!=relatedTo.ProjectSite__r.Heat_Recovery_Chillers__c,ROUND(relatedTo.ProjectSite__r.Heat_Recovery_Chillers__c,0),'')}</td>                                                         
+                        </tr><tr>   
+                            <td>    
+                                Co-gen  
+                            </td>   
+                            <td>    
+                                {!relatedTo.Cogeneration__c}    
+                            </td>  
+                            <td>{!IF(relatedTo.Cogeneration__c!=relatedTo.ProjectSite__r.Cogeneration_as_Text__c,relatedTo.ProjectSite__r.Cogeneration_as_Text__c,'')}</td>                                                         
+                        </tr><tr>   
+                            <td>    
+                                Mixed Energy Plant  
+                            </td>   
+                            <td>    
+                                {!relatedTo.Mixed_Fuel__c} 
+                            </td> 
+                            <td>    
+                                {!IF(relatedTo.Mixed_Fuel__c!=relatedTo.ProjectSite__r.Mixed_Fuel__c,relatedTo.ProjectSite__r.Mixed_fuel__c,'')} 
+                            </td> 
+                         
+                                                    
+                        </tr>
+                            <tr>    
+                            <td>    
+                                Total Tons  
+                            </td>   
+                            <td>    
+                                {!relatedTo.Total_Tons__c}  
+                            </td>
+                            <td>{!IF(relatedTo.Total_Tons__c!=relatedTo.ProjectSite__r.Total_Tons__c,ROUND(relatedTo.ProjectSite__r.Total_Tons__c,0),'')}</td>                                                           
+                        </tr>
+            </table>
+                    <p></p>
+                        <p></p>
+            <table cellpadding="5" style="border-collapse: collapse" width="700" border="1">
+      
+                <tr>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="300">
+                        <b>Engineer</b>
+                    </td>
+                        <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Engineer Role</b>
+                    </td>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Hourly Rate</b>
+                    </td>
+                   
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Working Hours Remote</b>
+                    </td>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Working Hours On-site</b>
+                    </td> <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Days On-site</b>
+                    </td><td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Number of Trips</b>
+                    </td>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Total Working Hours</b>
+                    </td>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Travel Hours</b>
+                    </td>
+                    <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Total Hours</b>
+                    </td>
+                     <td style="background-color: #0099CC; color: #FFFFFF" width="150" border="1">
+                        <b>Notes</b>
+                    </td>
+                </tr>
+                <apex:repeat value="{!relatedTo.Engineering_Hours__r}" var="Hours">
+                        <tr>
+                            <td>
+                                 {!Hours.Engineer__r.Name} 
+                            </td>
+                            <td>
+                                {!Hours.Engineer_Role__c}
+                                                       </td>  
+                                                       <td>
+                                ${!ROUND(Hours.Hourly_Rate__c,0)}
+                                                       </td> 
+                                                       <td>
+                                {!ROUND(Hours.Working_Hours_Remote__c,0)}
+                                                       </td>
+                                                       <td>
+                                {!ROUND(Hours.Working_Hours_On_Site2__c,0)} 
+                                                       </td>
+                                                       <td>
+                                {!ROUND(Hours.Days_On_site__c,0)}
+                                                       </td>
+                                                        <td>
+                                {!ROUND(Hours.Number_of_Trips__c,0)} 
+                                                       </td>
+                                                       <td>
+                                {!ROUND(Hours.Total_Working_Hours__c,0)} 
+                                                       </td><td>
+                                {!ROUND(Hours.Travel_Hours__c,0)}
+                                                       </td>
+                                                       <td>
+                                {!ROUND(Hours.Total_Hours__c,0)} 
+                                                       </td>
+                                                       <td>
+                                {!Hours.Engineering_Hours_Notes__c}
+                                                       </td>
+                        </tr></apex:repeat>
+                        </table>
+                      
+                   <h4>   Comments: </h4> <c:ApprovalRequestComments relatedToId="{!relatedTo.id}"/>  
+        
+        
+        </body>
+    </messaging:htmlEmailBody>
+</messaging:emailTemplate>
